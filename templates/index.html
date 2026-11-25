@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MedControl | Clínica Médica</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- MENU LATERAL -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>✚ MedControl</h2>
+            <p>Clínica Médica</p>
+        </div>
+
+        <nav>
+            <a href="/">Início</a>
+            <a href="/pacientes">Pacientes</a>
+            <a href="/consultas">Consultas</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>MedControl © 2026</p>
+        </div>
+
+    </aside>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="conteudo">
+
+        <!-- CABEÇALHO -->
+        <header class="cabecalho">
+
+            <div>
+                <h1>Bem-vindo ao MedControl!</h1>
+
+                <p>
+                    Gerencie seus pacientes e consultas
+                    de forma simples e eficiente.
+                </p>
+            </div>
+
+            <div class="administrador">
+                Administrador
+            </div>
+
+        </header>
+
+
+        <!-- CARDS DE INFORMAÇÕES -->
+        <section class="cards">
+
+            <div class="card">
+                <h2>{{ total_pacientes }}</h2>
+                <p>Pacientes cadastrados</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ consultas_hoje }}</h2>
+                <p>Consultas hoje</p>
+            </div>
+
+            <div class="card">
+                <h2>—</h2>
+                <p>Taxa de comparecimento</p>
+            </div>
+
+        </section>
+
+
+        <!-- PRÓXIMAS CONSULTAS -->
+        <section class="painel">
+
+            <h2>Próximas consultas</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Médico</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for consulta in proximas_consultas %}
+
+                    <tr>
+                        <td>{{ consulta.paciente_nome }}</td>
+
+                        <td>
+                            {{ consulta.data[8:10] }}/{{ consulta.data[5:7] }}/{{ consulta.data[0:4] }}
+                        </td>
+
+                        <td>{{ consulta.horario }}</td>
+
+                        <td>{{ consulta.medico }}</td>
+
+                        <td>{{ consulta.status }}</td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="5">
+                            Nenhuma consulta futura cadastrada.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- RODAPÉ -->
+        <footer>
+            <p>Sistema de gerenciamento médico - MedControl</p>
+        </footer>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
+

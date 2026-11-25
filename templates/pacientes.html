@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes | MedControl</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <h2>✚ MedControl</h2>
+        <p>Clínica Médica</p>
+
+        <nav>
+            <a href="/">Início</a>
+            <a href="/pacientes">Pacientes</a>
+            <a href="/consultas">Consultas</a>
+        </nav>
+
+    </aside>
+
+    <main class="conteudo">
+
+        <header>
+            <h1>Pacientes</h1>
+            <p>Gerencie os pacientes cadastrados na clínica.</p>
+        </header>
+
+        <section class="painel">
+
+            <div class="acoes">
+                <h2>Lista de pacientes</h2>
+
+                <a href="/cadastrar">
+                    <button>Novo paciente +</button>
+                </a>
+            </div>
+
+            <!-- Pesquisa de pacientes -->
+            <form action="{{ url_for('pacientes') }}" method="GET">
+
+                <div class="campo">
+                    <label for="pesquisa">Pesquisar paciente pelo nome</label>
+
+                    <input
+                        type="text"
+                        id="pesquisa"
+                        name="pesquisa"
+                        placeholder="Digite o nome do paciente"
+                        value="{{ pesquisa }}"
+                    >
+                </div>
+
+                <div class="botoes">
+                    <button type="submit">Pesquisar</button>
+
+                    <a href="{{ url_for('pacientes') }}">
+                        <button type="button">Limpar pesquisa</button>
+                    </a>
+                </div>
+
+            </form>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for paciente in pacientes %}
+
+                    <tr>
+                        <td>{{ paciente.nome }}</td>
+                        <td>{{ paciente.telefone or '-' }}</td>
+                        <td>{{ paciente.email or '-' }}</td>
+
+                        <td>
+                            <form action="{{ url_for('excluir', id=paciente.id) }}"
+                                  method="POST">
+                                <button type="submit">
+                                    Excluir
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="4">
+                            {% if pesquisa %}
+                                Nenhum paciente encontrado com esse nome.
+                            {% else %}
+                                Nenhum paciente cadastrado.
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

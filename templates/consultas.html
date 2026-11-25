@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Consultas | MedControl</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <h2>✚ MedControl</h2>
+        <p>Clínica Médica</p>
+
+        <nav>
+            <a href="/">Início</a>
+            <a href="/pacientes">Pacientes</a>
+            <a href="/consultas">Consultas</a>
+        </nav>
+
+    </aside>
+
+    <main class="conteudo">
+
+        <header>
+            <h1>Consultas</h1>
+            <p>Gerencie os agendamentos da clínica.</p>
+        </header>
+
+        <section class="painel">
+
+            <h2>Agendar nova consulta</h2>
+
+            {% with mensagens = get_flashed_messages() %}
+                {% for mensagem in mensagens %}
+                    <p>{{ mensagem }}</p>
+                {% endfor %}
+            {% endwith %}
+
+            <form action="{{ url_for('consultas') }}" method="POST">
+
+                <div class="campo">
+                    <label for="paciente_id">Paciente</label>
+
+                    <select id="paciente_id" name="paciente_id" required>
+                        <option value="">Selecione um paciente</option>
+
+                        {% for paciente in pacientes %}
+                            <option value="{{ paciente.id }}">
+                                {{ paciente.nome }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="data">Data</label>
+                    <input type="date" id="data" name="data" required>
+                </div>
+
+                <div class="campo">
+                    <label for="horario">Horário</label>
+                    <input type="time" id="horario" name="horario" required>
+                </div>
+
+                <div class="campo">
+                    <label for="medico">Médico</label>
+                    <input type="text" id="medico" name="medico"
+                           placeholder="Nome do médico" required>
+                </div>
+
+                <div class="botoes">
+                    <button type="submit">Agendar consulta</button>
+                </div>
+
+            </form>
+
+        </section>
+
+        <section class="painel">
+
+            <h2>Lista de consultas</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Médico</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for consulta in consultas %}
+
+                    <tr>
+                        <td>{{ consulta.paciente_nome }}</td>
+
+                        <td>
+                            {{ consulta.data[8:10] }}/{{ consulta.data[5:7] }}/{{ consulta.data[0:4] }}
+                        </td>
+
+                        <td>{{ consulta.horario }}</td>
+                        <td>{{ consulta.medico }}</td>
+                        <td>{{ consulta.status }}</td>
+
+                        <td>
+                            {% if consulta.status != 'Cancelada' %}
+
+                            <form action="{{ url_for('cancelar_consulta', id=consulta.id) }}"
+                                  method="POST">
+
+                                <button type="submit"
+                                        onclick="return confirm('Deseja cancelar esta consulta?')">
+                                    Cancelar
+                                </button>
+
+                            </form>
+
+                            {% else %}
+
+                            Cancelada
+
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="6">Nenhuma consulta cadastrada.</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
+

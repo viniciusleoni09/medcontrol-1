@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Paciente | MedControl</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <h2>✚ MedControl</h2>
+        <p>Clínica Médica</p>
+
+        <nav>
+            <a href="/">Início</a>
+            <a href="/pacientes">Pacientes</a>
+            <a href="/consultas">Consultas</a>
+        </nav>
+
+    </aside>
+
+    <main class="conteudo">
+
+        <header>
+            <h1>Cadastrar paciente</h1>
+            <p>Preencha os dados para registrar um novo paciente.</p>
+        </header>
+
+        <section class="painel">
+
+            <h2>Informações do paciente</h2>
+
+            <form action="/cadastrar" method="POST">
+
+                <div class="campo">
+    <label for="idade">Idade</label>
+    <input
+        type="number"
+        id="idade"
+        name="idade"
+        placeholder="Digite a idade"
+        min="0"
+        required>
+</div>
+
+                <div class="campo">
+                    <label for="nome">Nome completo</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite o nome completo"
+                        required>
+                </div>
+
+                <div class="campo">
+                    <label for="telefone">Telefone</label>
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        placeholder="(00) 00000-0000"
+                        required>
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="exemplo@email.com">
+                </div>
+
+                <div class="botoes">
+                    <a href="/pacientes">Cancelar</a>
+                    <button type="submit">Salvar paciente</button>
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
